@@ -14,7 +14,6 @@ connectDb ();
 
 //CORS config
 const cors = require("cors");
-const { trusted } = require('mongoose');
 
 app.use(cors({
     origin:"http://localhost:5173",
