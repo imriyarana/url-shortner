@@ -5,6 +5,11 @@ const bcrypt = require("bcrypt");
 async function handleSignup(req, res) {
     try {
         const { name, email, password } = req.body;
+        //checking existing user
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "User already exists" });
+        }
         // hashing the password
         const hashedPassword = await bcrypt.hash(password, 10);
         await User.create({
@@ -15,7 +20,7 @@ async function handleSignup(req, res) {
         return res.json({ message: "Signup successful"});
     } catch (error) {
         console.error('Error during signup:', error);
-        return res.status(500).send({ message: 'This User already exist', error: error.message });
+        return res.status(500).send({ message:"error occured", error: error.message });
     };
 }
 
