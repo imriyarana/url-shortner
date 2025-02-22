@@ -6,6 +6,13 @@ async function handleGenerateNewShortURL(req,res){
       if(!body.url)
        return res.status(400).json({error:"url is required please provide the url meow"});
       
+    //checks if url already exists in db
+    const existingUrlEntry = await URL.findOne({ redirectURL: body.url });
+
+    if (existingUrlEntry) {
+        return res.json({ id: existingUrlEntry.shortId }); // it returns the existing shortId
+    }
+
       let shortID;
       let isUnique = false;
 
@@ -14,7 +21,6 @@ async function handleGenerateNewShortURL(req,res){
         const existingUrl = await URL.findOne({ shortId: shortID });
         if (!existingUrl) isUnique = true;
     }
-       shortID = shortid();
       await URL.create({
         shortId : shortID,
         redirectURL: body.url,

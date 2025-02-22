@@ -1,13 +1,12 @@
 const{getUser} = require('../service/auth');
 
 function checkForAuthentication(req,res,next){
-    try{const tokenCookie = req.cookies?.token;
+    try{
+        const tokenCookie = req.cookies?.token;
     req.user = null;
 
-    if(
-        !tokenCookie 
-    )
-    return next()
+    if(!tokenCookie)
+    return next();
     const token = tokenCookie;
     const user = getUser(token);
 
@@ -20,14 +19,15 @@ function checkForAuthentication(req,res,next){
 };
 }
 
-function restrictTo(roles=[]){
-     return function(req,res,next){
-        if(!req.user)return res.status(401).json({ error: "please login" });
-
-      if (!roles.includes(req.user.role)) return res.end("unAuthorized");
-        return next();
-     };
-}
+function restrictTo() {
+    return function (req, res, next) {
+      if (!req.user) {
+        return res.status(401).json({ error: "You are not authenticated please sign up/login to get short url" });
+      }
+      next();
+    };
+  }
+  
 
 module.exports={
     checkForAuthentication,

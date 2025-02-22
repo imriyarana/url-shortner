@@ -1,7 +1,12 @@
 const {v4: uuidv4} = require('uuid')
 const User = require("../models/user");
-const {setUser} = require('../service/auth')
+const {setUser} = require("../service/auth")
 const bcrypt = require("bcrypt");
+require('dotenv').config();
+const jwt = require("jsonwebtoken");
+
+const JWT_SECRET = process.env.SECRET_KEY;
+
 async function handleSignup(req, res) {
     try {
         const { name, email, password } = req.body;
@@ -12,11 +17,17 @@ async function handleSignup(req, res) {
         }
         // hashing the password
         const hashedPassword = await bcrypt.hash(password, 10);
-        await User.create({
+        const newUser= await User.create({
             name,
             email,
             password: hashedPassword,
         });
+        //Generate JWT token
+        const token = jwt.sign({id: newUser._id},JWT_SECRET,{expiresIn:"1d"});
+        
+       //Token setting 
+       res.cookie("token",token,{httpOnly:true, secure:process.env.NODE_ENV==="production"});
+       
         return res.json({ message: "Signup successful"});
     } catch (error) {
         console.error('Error during signup:', error);

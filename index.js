@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const connectDb = require("./connect");
 const cookieParser = require('cookie-parser');
-const { checkForAuthentication,  restrictTo}= require("./middlewares/auth")
+const { checkForAuthentication,}= require("./middlewares/auth")
 const staticRoute = require("./routes/staticRoute");
 const urlRoute = require("./routes/url");
 const userRoute = require("./routes/user");
@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.use(checkForAuthentication);
 
 //Route imports
-app.use("/url", restrictTo(["NORMAL"]),urlRoute);
+app.use("/url",urlRoute);
 app.use("/user", userRoute);
 app.use("/", staticRoute);
 
