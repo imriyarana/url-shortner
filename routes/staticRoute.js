@@ -3,7 +3,7 @@ const URL= require("../models/url");
 const { restrictTo } = require("../middlewares/auth");
 const router = express.Router();
 
-router.get("/",restrictTo , async (req, res) => {
+router.get("/",restrictTo(),async (req, res) => {
     try {
         const allUrls = await URL.find({ createdBy: req.user._id });
         return res.json({ urls: allUrls });
