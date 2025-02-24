@@ -30,7 +30,7 @@ async function handleSignup(req, res) {
        
         return res.json({ message: "Signup successful"});
     } catch (error) {
-        console.error('Error during signup:', error);
+        console.error("Error during signup:", error);
         return res.status(500).send({ message:"error occured", error: error.message });
     };
 }
@@ -56,7 +56,20 @@ async function handleLogin(req, res) {
         }
    
 }
+
+//logout user 
+    async function handleLogout(req,res){
+        try{
+            res.clearCookie("token");
+           return res.json({message:"logout successful"});
+        }catch(err){
+          console.error("logout error:", err);
+          return res.status(500).json({error:"server error"});
+        }
+    }
+    
 module.exports = {
     handleSignup,
     handleLogin,
+    handleLogout,
 }

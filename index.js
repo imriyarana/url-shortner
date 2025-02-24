@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const connectDb = require("./connect");
 const cookieParser = require('cookie-parser');
-const { checkForAuthentication,restrictTo}= require("./middlewares/auth")
+const { checkForAuthentication}= require("./middlewares/auth")
 const staticRoute = require("./routes/staticRoute");
 const urlRoute = require("./routes/url");
 const userRoute = require("./routes/user");
@@ -14,7 +14,6 @@ connectDb ();
 
 //CORS config
 const cors = require("cors");
-
 app.use(cors({
     origin:"http://localhost:5173",
     credentials:true
