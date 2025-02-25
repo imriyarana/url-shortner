@@ -15,7 +15,7 @@ connectDb ();
 //CORS config
 const cors = require("cors");
 app.use(cors({
-    origin:"http://localhost:5173",
+    origin:"https://urshortify.netlify.app/",
     credentials:true
 }));
 
