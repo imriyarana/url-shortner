@@ -67,9 +67,14 @@ async function handleLogin(req, res) {
           return res.status(500).json({error:"server error"});
         }
     }
-    
+//Auth status
+ async function handleUserStatus(req,res){
+    res.json({authenticated: !!req.user});
+ }
+ 
 module.exports = {
     handleSignup,
     handleLogin,
     handleLogout,
+    handleUserStatus,
 }
